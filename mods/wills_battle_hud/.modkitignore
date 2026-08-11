@@ -6,3 +6,4 @@ tests/package_test.lua
 tests/runner/main.lua
 tools/bundle.py
 dist/wills_battle_hud-0.1.0.zip
+dist/wills_battle_hud-0.1.1.zip

@@ -2,6 +2,13 @@ local BattleHud = {}
 BattleHud.__index = BattleHud
 
 local BALL_GAP = 8 + 3 -- one blank glyph after the name + the marker gap
+local BALL_OFFSETS = {
+  -- Screenshot tuning: enemy/rival marker reads too far right, so it moves
+  -- one tile left. In wide battle, the player's marker has extra right-side
+  -- HUD room and was too tight against the final glyph, so it moves right.
+  classic = { enemy = -8, player = 0 },
+  wide = { enemy = -8, player = 8 },
+}
 
 -- Engine HUD anchors, verified against BattleState.drawHUDs (v0.1.75):
 -- classic enemy name row 0 (nameX anchor tile 1), player row 56 (tile 10);
@@ -33,7 +40,8 @@ function BattleHud.ballGeometry(layout, side, glyphs, nameWidth)
   else
     nameX = BattleHud.nameX(spec.tx, glyphs)
   end
-  return nameX + nameWidth + BALL_GAP, spec.y + 3
+  local offset = ((BALL_OFFSETS[layout] or {})[side]) or 0
+  return nameX + nameWidth + BALL_GAP + offset, spec.y + 3
 end
 
 -- The same owned-ball marker the engine's ListMenu draws.

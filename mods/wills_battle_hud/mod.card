@@ -11,7 +11,7 @@ return {
       "classic and wide battle layouts",
     },
     known = {
-      "v0.1.0 marks battler names only; the EXP bar is planned",
+      "v0.1.1 marks battler names only; the EXP bar is planned",
       "the ball may sit a few pixels off during the brief HUD slide-in animation",
     },
   },
