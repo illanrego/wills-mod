@@ -3,7 +3,13 @@
 local BattleHud = {}
 BattleHud.__index = BattleHud
 
-local ICON_LEFT_OFFSET = -4 -- circle center; left edge lands on the name field edge
+local BALL_GAPS = {
+  -- Screenshot-guided pass: enemy/rival belongs closer to the end of its name;
+  -- our/player marker belongs farther right after our name. These intentionally
+  -- differ by side/layout.
+  classic = { enemy = 4, player = 20 },
+  wide = { enemy = 4, player = 24 },
+}
 
 -- Engine HUD anchors, verified against BattleState.drawHUDs (v0.1.75):
 -- classic enemy name row 0 (nameX anchor tile 1), player row 56 (tile 10);
@@ -35,7 +41,8 @@ function BattleHud.ballGeometry(layout, side, glyphs, nameWidth)
   else
     nameX = BattleHud.nameX(spec.tx, glyphs)
   end
-  return nameX + ICON_LEFT_OFFSET, spec.y + 3
+  local gap = ((BALL_GAPS[layout] or {})[side]) or 4
+  return nameX + nameWidth + gap, spec.y + 3
 end
 
 -- The same owned-ball marker the engine's ListMenu draws.

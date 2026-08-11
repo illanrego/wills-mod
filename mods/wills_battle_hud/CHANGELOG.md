@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.3 — 2026-08-11
+
+- Reworks battle owned-ball X placement again after live feedback: markers now follow Pokémon name length with side-specific spacing.
+- Enemy/rival marker sits close after the enemy name; player marker sits farther right after the player name.
+
 ## 0.1.2 — 2026-08-11
 
 - Fixes battle owned-ball X alignment by using fixed icon slots beside the name fields instead of deriving X from `Font.width(name)`.

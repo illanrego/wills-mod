@@ -11,21 +11,23 @@ eq(BattleHud.nameX(1, 3), 16, "3-4 glyph names print one tile right")
 eq(BattleHud.nameX(1, 5), 8, "5+ glyph names print at the box edge")
 eq(BattleHud.nameX(10, 2), 96, "the player box anchor is respected")
 
--- ball placement: fixed icon slot just before the name, aligned to the row.
--- Screenshot feedback: deriving X from Font.width(name) made both markers wander
--- horizontally. The owned ball should use the blank tile at the side of each
--- name field instead: enemy/rival left edge at x=0-ish; player just before name.
-local bx, by = BattleHud.ballGeometry("classic", "enemy", 6, 999)
-eq(bx, 4, "classic enemy ball sits in the left icon slot before the name")
+-- ball placement: side-specific spacing after the visible name.
+-- Screenshot feedback: rival/enemy needs to be more left, but our/player needs
+-- to be more right. Therefore X follows name length, with different gaps per
+-- side instead of one shared gap or the failed before-name fixed slot.
+local bx, by = BattleHud.ballGeometry("classic", "enemy", 6, 48)
+eq(bx, 8 + 48 + 4, "classic enemy ball sits just after the enemy name")
 eq(by, 3, "classic enemy ball aligns with the name row")
-local px, py = BattleHud.ballGeometry("classic", "player", 7, 999)
-eq(px, 76, "classic player ball sits just before the player name")
+local px, py = BattleHud.ballGeometry("classic", "player", 7, 56)
+eq(px, 80 + 56 + 20, "classic player ball sits farther right after the player name, edge-safe")
 eq(py, 59, "classic player ball aligns with the player name row")
-local wx, wy = BattleHud.ballGeometry("wide", "player", 7, 999)
-eq(wx, 188, "wide player ball sits just before the wide-layout name")
+local wx, wy = BattleHud.ballGeometry("wide", "player", 7, 56)
+eq(wx, 192 + 56 + 24, "wide player ball sits farther right after the wide-layout name")
 eq(wy, 67, "wide player ball aligns with the wide name row")
 eq(BattleHud.ballGeometry("bogus", "enemy", 6, 48), nil, "ballGeometry returns nil for unknown layouts")
 eq(BattleHud.ballGeometry("wide", "trainer", 6, 48), nil, "ballGeometry returns nil for unknown sides")
+local zubatX = BattleHud.ballGeometry("wide", "enemy", 5, 40)
+eq(zubatX, 8 + 40 + 4, "shorter enemy names move the enemy marker left with the name length")
 
 -- drawing: owned species get the ListMenu ball after the name
 local circles, rectangles, colors = {}, {}, {}
@@ -75,10 +77,10 @@ local ownedEnemy = makeBattle({
 eq(BattleHud.drawOverlay(graphics, font, ownedEnemy, { PIDGEY = true }), 1,
   "one ball is drawn for the owned enemy")
 eq(circles[1][1], "fill", "the owned ball is a filled circle")
-eq(circles[1][2], 4, "the enemy ball sits in the fixed left icon slot")
+eq(circles[1][2], 8 + 48 + 4, "the enemy ball sits just after the enemy name")
 eq(circles[1][3], 3, "the enemy ball aligns with the enemy name row")
 eq(circles[1][4], 3.5, "the enemy ball matches the ListMenu owned-ball size")
-eq(rectangles[1][2], 4 - 3.5, "the ball's white band spans the fixed circle horizontally")
+eq(rectangles[1][2], 8 + 48 + 4 - 3.5, "the ball's white band spans the enemy circle horizontally")
 eq(rectangles[1][3], 3 - 0.5, "the ball's white band crosses the circle vertically")
 
 -- both owned: two balls, each at its side's name row
@@ -90,7 +92,7 @@ local bothOwned = makeBattle({
 local ballCount = #circles
 eq(BattleHud.drawOverlay(graphics, font, bothOwned, { PIDGEY = true, PIKACHU = true }), 2,
   "both owned battlers get a ball")
-eq(circles[#circles][2], 76, "the classic player ball sits in the fixed icon slot before the name")
+eq(circles[#circles][2], 80 + 56 + 20, "the classic player ball sits farther right after the player name")
 eq(circles[#circles][3], 59, "the player ball aligns with the player name row")
 
 -- unowned species: no ball
@@ -110,9 +112,9 @@ local wideBattle = makeBattle({
 })
 local wideBase = #circles
 eq(BattleHud.drawOverlay(graphics, font, wideBattle, { PIDGEY = true, PIKACHU = true }), 2, "wide battles still mark owned battlers")
-eq(circles[wideBase + 1][2], 4, "the wide enemy ball sits in the fixed left icon slot")
+eq(circles[wideBase + 1][2], 8 + 48 + 4, "the wide enemy ball sits just after the enemy name")
 eq(circles[wideBase + 1][3], 11, "the wide enemy ball aligns with the wide name row")
-eq(circles[#circles][2], 188, "the wide player ball sits in the fixed icon slot before the name")
+eq(circles[#circles][2], 192 + 56 + 24, "the wide player ball sits farther right after the name")
 eq(circles[#circles][3], 67, "the wide player ball aligns with the wide player name row")
 
 -- HUD visibility guards: no ball while the enemy is being sent out
