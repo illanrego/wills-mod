@@ -4,7 +4,7 @@
 
 | Mod | What it does | Latest |
 |-----|--------------|--------|
-| [wills_battle_hud](mods/wills_battle_hud/) | Pokédex owned-ball markers beside battler names in battle (FR/LG style) | 0.1.1 |
+| [wills_battle_hud](mods/wills_battle_hud/) | Pokédex owned-ball markers beside battler names in battle (FR/LG style) | 0.1.2 |
 
 Each mod lives in its own directory with its own manifest, tests, and release gate — importable and toggleable independently.
 
