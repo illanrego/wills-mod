@@ -69,10 +69,7 @@ SIZE rows. Report anything off.
 ### Phase 1 — Repo shape + presentation
 
 1. Flatten to repo-root mod (or keep subdir — see §3).
-2. Add screenshots: capture the three README shots (PKMN MAP, walking HUD,
-   battle HUD) — capture from the live game while you play, or you grab
-   them — save to `.github/resources/screenshot-{map,walking-hud,battle-hud}.png`
-   (never inside the zip).
+2. Add screenshots: use the three existing shots from `~/Documents/encounters-guide1.png` (PKMN MAP), `encounters-guide2.png` (walking HUD), and `encounters-guide3.png` (encounter list). They are copied under `mods/wills_mod/.github/resources/` as `screenshot-map.png`, `screenshot-walking-hud.png`, and `screenshot-encounter-list.png`. Keep screenshots OUT of the release zip — the official release workflow excludes `.github/`.
 3. Root README: the mod README (already written at
    `mods/wills_mod/README.md`; it becomes the repo README after flatten).
 4. Commit locally (no push).
