@@ -7,7 +7,7 @@ When you battle a Pokémon whose species is already in your caught dex, a Pokéd
 ## Install
 
 1. Open **MODS** in Gen1Recomp (`F10` on desktop).
-2. **Import mod .zip** and select `wills_battle_hud-0.1.3.zip`.
+2. **Import mod .zip** and select `wills_battle_hud-0.1.4.zip`.
 3. Enable **Will's Battle HUD**.
 
 ## Usage
@@ -28,7 +28,7 @@ python3 tools/bundle.py
 # official mod validation, ROM-content lint, and packaging
 modkit validate --base fixture --strict .
 modkit lint .
-modkit pack -o dist/wills_battle_hud-0.1.3.zip .
+modkit pack -o dist/wills_battle_hud-0.1.4.zip .
 ```
 
 ## Scope

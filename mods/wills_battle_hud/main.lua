@@ -3,12 +3,12 @@
 local BattleHud = {}
 BattleHud.__index = BattleHud
 
-local BALL_GAPS = {
-  -- Screenshot-guided pass: enemy/rival belongs closer to the end of its name;
-  -- our/player marker belongs farther right after our name. These intentionally
-  -- differ by side/layout.
-  classic = { enemy = 4, player = 20 },
-  wide = { enemy = 4, player = 24 },
+local ABSOLUTE_SLOTS = {
+  -- Fixed HUD-panel slots: these must not depend on Pokémon name length.
+  -- Enemy/rival is anchored to the left status panel; player/ours to the
+  -- right side of the player status panel.
+  classic = { enemy = 64, player = 152 },
+  wide = { enemy = 64, player = 272 },
 }
 
 -- Engine HUD anchors, verified against BattleState.drawHUDs (v0.1.75):
@@ -35,14 +35,9 @@ end
 function BattleHud.ballGeometry(layout, side, glyphs, nameWidth)
   local spec = LAYOUTS[layout] and LAYOUTS[layout][side]
   if not spec then return nil end
-  local nameX
-  if layout == "wide" then
-    nameX = spec.x
-  else
-    nameX = BattleHud.nameX(spec.tx, glyphs)
-  end
-  local gap = ((BALL_GAPS[layout] or {})[side]) or 4
-  return nameX + nameWidth + gap, spec.y + 3
+  local x = ((ABSOLUTE_SLOTS[layout] or {})[side])
+  if not x then return nil end
+  return x, spec.y + 3
 end
 
 -- The same owned-ball marker the engine's ListMenu draws.

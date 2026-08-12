@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.4 — 2026-08-11
+
+- Fixes battle owned-ball X placement to use absolute HUD-panel slots.
+- Marker X no longer depends on Pokémon name length; short and long names keep the same marker position per side/layout.
+
 ## 0.1.3 — 2026-08-11
 
 - Reworks battle owned-ball X placement again after live feedback: markers now follow Pokémon name length with side-specific spacing.

@@ -11,23 +11,24 @@ eq(BattleHud.nameX(1, 3), 16, "3-4 glyph names print one tile right")
 eq(BattleHud.nameX(1, 5), 8, "5+ glyph names print at the box edge")
 eq(BattleHud.nameX(10, 2), 96, "the player box anchor is respected")
 
--- ball placement: side-specific spacing after the visible name.
--- Screenshot feedback: rival/enemy needs to be more left, but our/player needs
--- to be more right. Therefore X follows name length, with different gaps per
--- side instead of one shared gap or the failed before-name fixed slot.
+-- ball placement: absolute HUD slots, independent of the Pokémon name.
+-- Live feedback showed the real bug: different name lengths move the marker.
+-- The marker must be anchored to the battle HUD panel/side, not to text width.
 local bx, by = BattleHud.ballGeometry("classic", "enemy", 6, 48)
-eq(bx, 8 + 48 + 4, "classic enemy ball sits just after the enemy name")
+eq(bx, 64, "classic enemy ball uses a fixed left-side HUD slot")
 eq(by, 3, "classic enemy ball aligns with the name row")
 local px, py = BattleHud.ballGeometry("classic", "player", 7, 56)
-eq(px, 80 + 56 + 20, "classic player ball sits farther right after the player name, edge-safe")
+eq(px, 152, "classic player ball uses a fixed right-side HUD slot")
 eq(py, 59, "classic player ball aligns with the player name row")
 local wx, wy = BattleHud.ballGeometry("wide", "player", 7, 56)
-eq(wx, 192 + 56 + 24, "wide player ball sits farther right after the wide-layout name")
+eq(wx, 272, "wide player ball uses a fixed right-side HUD slot")
 eq(wy, 67, "wide player ball aligns with the wide name row")
 eq(BattleHud.ballGeometry("bogus", "enemy", 6, 48), nil, "ballGeometry returns nil for unknown layouts")
 eq(BattleHud.ballGeometry("wide", "trainer", 6, 48), nil, "ballGeometry returns nil for unknown sides")
 local zubatX = BattleHud.ballGeometry("wide", "enemy", 5, 40)
-eq(zubatX, 8 + 40 + 4, "shorter enemy names move the enemy marker left with the name length")
+eq(zubatX, 64, "shorter enemy names do not move the enemy marker")
+local magikarpX = BattleHud.ballGeometry("wide", "enemy", 8, 64)
+eq(magikarpX, 64, "longer enemy names do not move the enemy marker")
 
 -- drawing: owned species get the ListMenu ball after the name
 local circles, rectangles, colors = {}, {}, {}
@@ -77,10 +78,10 @@ local ownedEnemy = makeBattle({
 eq(BattleHud.drawOverlay(graphics, font, ownedEnemy, { PIDGEY = true }), 1,
   "one ball is drawn for the owned enemy")
 eq(circles[1][1], "fill", "the owned ball is a filled circle")
-eq(circles[1][2], 8 + 48 + 4, "the enemy ball sits just after the enemy name")
+eq(circles[1][2], 64, "the enemy ball uses the fixed enemy HUD slot")
 eq(circles[1][3], 3, "the enemy ball aligns with the enemy name row")
 eq(circles[1][4], 3.5, "the enemy ball matches the ListMenu owned-ball size")
-eq(rectangles[1][2], 8 + 48 + 4 - 3.5, "the ball's white band spans the enemy circle horizontally")
+eq(rectangles[1][2], 64 - 3.5, "the ball's white band spans the enemy circle horizontally")
 eq(rectangles[1][3], 3 - 0.5, "the ball's white band crosses the circle vertically")
 
 -- both owned: two balls, each at its side's name row
@@ -92,7 +93,7 @@ local bothOwned = makeBattle({
 local ballCount = #circles
 eq(BattleHud.drawOverlay(graphics, font, bothOwned, { PIDGEY = true, PIKACHU = true }), 2,
   "both owned battlers get a ball")
-eq(circles[#circles][2], 80 + 56 + 20, "the classic player ball sits farther right after the player name")
+eq(circles[#circles][2], 152, "the classic player ball uses the fixed right-side HUD slot")
 eq(circles[#circles][3], 59, "the player ball aligns with the player name row")
 
 -- unowned species: no ball
@@ -112,9 +113,9 @@ local wideBattle = makeBattle({
 })
 local wideBase = #circles
 eq(BattleHud.drawOverlay(graphics, font, wideBattle, { PIDGEY = true, PIKACHU = true }), 2, "wide battles still mark owned battlers")
-eq(circles[wideBase + 1][2], 8 + 48 + 4, "the wide enemy ball sits just after the enemy name")
+eq(circles[wideBase + 1][2], 64, "the wide enemy ball uses the fixed enemy HUD slot")
 eq(circles[wideBase + 1][3], 11, "the wide enemy ball aligns with the wide name row")
-eq(circles[#circles][2], 192 + 56 + 24, "the wide player ball sits farther right after the name")
+eq(circles[#circles][2], 272, "the wide player ball uses the fixed right-side HUD slot")
 eq(circles[#circles][3], 67, "the wide player ball aligns with the wide player name row")
 
 -- HUD visibility guards: no ball while the enemy is being sent out
