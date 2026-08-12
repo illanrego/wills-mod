@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.5 — 2026-08-11
+
+- Moves battle owned-ball markers below-left of each battler name instead of beside the name.
+- Keeps marker X fixed per panel/name field so Pokémon name length never changes placement.
+
 ## 0.1.4 — 2026-08-11
 
 - Fixes battle owned-ball X placement to use absolute HUD-panel slots.
