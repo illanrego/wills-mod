@@ -18,6 +18,7 @@ tests/runner/main.lua
 tools/bundle.py
 PUBLISHING.md
 docs/BATTLE_EXP_BAR_RESEARCH.md
+docs/ENCOUNTER_GUIDE_COMPETITION_RESEARCH.md
 .github/resources/screenshot-map.png
 .github/resources/screenshot-walking-hud.png
 .github/resources/screenshot-encounter-list.png
