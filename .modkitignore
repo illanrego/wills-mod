@@ -18,4 +18,5 @@ tests/package_test.lua
 tests/screens_test.lua
 tests/runner/main.lua
 tools/bundle.py
+PUBLISHING.md
 dist/wills_mod-1.0.0.zip
