@@ -45,7 +45,7 @@ Two read-only tools in one mod — know where to find every wild Pokémon, and k
 ## Install
 
 1. Open **MODS** in Gen1Recomp (`F10` on desktop).
-2. **Import mod .zip** and select `wills_mod-1.0.0.zip`.
+2. **Import mod .zip** and select `wills_mod-1.0.1.zip`.
 3. Enable **Encounters Guide**.
 
 Works on desktop and Android. Requires an imported Pokémon Red, Blue, or Yellow ROM.
@@ -129,7 +129,7 @@ python3 tools/bundle.py
 # official mod validation, ROM-content lint, and packaging
 modkit validate --base fixture --strict .
 modkit lint .
-modkit pack -o dist/wills_mod-1.0.0.zip .
+modkit pack -o dist/wills_mod-1.0.1.zip .
 ```
 
 Every release gate runs before tagging: **11/11 test files green** → strict loader validation → no-ROM-content lint → clean archive → live in-game smoke test.

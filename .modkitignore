@@ -25,4 +25,5 @@ PUBLISHING.md
 .github/resources/screenshot-walking-hud.png
 .github/workflows/release.yml
 dist/wills_mod-1.0.0.zip
+dist/wills_mod-1.0.1.zip
 dist/sha256sums.txt
