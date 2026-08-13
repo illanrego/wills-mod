@@ -43,8 +43,9 @@ HUD. Our guide is the unique implementation — keep pushing it.
 
 ## Recommended next step
 
-Once the gallery PR (#1223) and a release settle, submit the mod to the
-**official mod index** (bryanthaboi/gen1recomp-mod-index) — metadata-only
-folder (`mods/Illan@wills_mod/meta.json` + `description.md`) via their
-submission helper. That is the ecosystem's canonical "where to find mods"
-page, and our entry would be the only map-first encounter guide listed.
+Done (2026-08-13): submitted to the **official mod index**
+(bryanthaboi/gen1recomp-mod-index) as PR
+https://github.com/bryanthaboi/gen1recomp-mod-index/pull/134
+(`mods/Illan@wills_mod/` — meta.json + description.md, schema-validated,
+`automatic_version_check: true`). Awaiting maintainer merge; the nightly
+refresh then tracks new releases from illanrego/wills-mod automatically.
