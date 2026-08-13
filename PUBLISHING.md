@@ -1,9 +1,13 @@
 # Will's Mod — Publishing Plan
 
-Status: **awaiting your in-game test of `dist/wills_mod-1.0.0.zip`** (v1.0.0).
+Status: **GitHub published after your in-game test** (v1.0.0). Next: GameBanana + Discord announcement.
 Everything below is researched against the live gen1recomp repo/wiki (dev
-branch, Aug 2026) and GameBanana. No publication step runs until you've
-tested the single mod and said go.
+branch, Aug 2026) and GameBanana.
+
+Published GitHub release:
+- Repo: https://github.com/illanrego/wills-mod
+- Release: https://github.com/illanrego/wills-mod/releases/tag/v1.0.0
+- Asset: `wills_mod-1.0.0.zip` + `sha256sums.txt`
 
 ---
 
