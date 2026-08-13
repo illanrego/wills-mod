@@ -1,6 +1,6 @@
 # Will's Mod — Publishing Plan
 
-Status: **GitHub published after your in-game test** (v1.0.0). Next: GameBanana + Discord announcement.
+Status: **GitHub published** (v1.0.0) + **official gallery PR open**: https://github.com/bryanthaboi/gen1recomp/pull/1223 (Lane A, entry #9 `wills_mod` in `mods/examples/`). Next: GameBanana + Discord announcement.
 Everything below is researched against the live gen1recomp repo/wiki (dev
 branch, Aug 2026) and GameBanana.
 
