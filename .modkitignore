@@ -17,6 +17,7 @@ tests/screens_test.lua
 tests/runner/main.lua
 tools/bundle.py
 PUBLISHING.md
+docs/BATTLE_EXP_BAR_RESEARCH.md
 .github/resources/screenshot-map.png
 .github/resources/screenshot-walking-hud.png
 .github/resources/screenshot-encounter-list.png
