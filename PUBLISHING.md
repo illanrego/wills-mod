@@ -1,6 +1,6 @@
 # Will's Mod — Publishing Plan
 
-Status: **GitHub published** (v1.0.0) + **official gallery PR open**: https://github.com/bryanthaboi/gen1recomp/pull/1223 (Lane A, entry #9 `wills_mod` in `mods/examples/`). PR fully verified locally against the user's real Blue import: `modkit validate --base imported --strict` green, lint clean, standalone suite 8/8, merged gallery suite 296/296 (all 9 mods load together, #9 asserts Will's Mod's stated effects). Awaiting maintainer review. Next: GameBanana + Discord announcement.
+Status: **GitHub published** (v1.0.0), **GameBanana live**: https://gamebanana.com/mods/703606 (QoL, Gen1Recomp), + **official gallery PR open**: https://github.com/bryanthaboi/gen1recomp/pull/1223 (Lane A, entry #9 `wills_mod` in `mods/examples/`). PR fully verified locally against the user's real Blue import: `modkit validate --base imported --strict` green, lint clean, standalone suite 8/8, merged gallery suite 296/296 (all 9 mods load together, #9 asserts Will's Mod's stated effects). Awaiting maintainer review. Next: Discord announcement.
 Everything below is researched against the live gen1recomp repo/wiki (dev
 branch, Aug 2026) and GameBanana.
 
