@@ -11,24 +11,30 @@ eq(BattleHud.nameX(1, 3), 16, "3-4 glyph names print one tile right")
 eq(BattleHud.nameX(1, 5), 8, "5+ glyph names print at the box edge")
 eq(BattleHud.nameX(10, 2), 96, "the player box anchor is respected")
 
--- ball placement: below-left of the name row, independent of Pokémon name.
--- This avoids horizontal alignment fights beside the name entirely.
+-- ball placement: immediately right of the name end, vertically centered on
+-- the name row. X follows Font.width(name): short names put the ball right
+-- after a short name, long names right after a long name.
 local bx, by = BattleHud.ballGeometry("classic", "enemy", 6, 48)
-eq(bx, 8, "classic enemy ball is below-left of the enemy name")
-eq(by, 11, "classic enemy ball sits below the enemy name row")
+eq(bx, 8 + 48 + 3, "classic enemy ball sits right of the enemy name end")
+eq(by, 4, "classic enemy ball is centered on the enemy name row")
 local px, py = BattleHud.ballGeometry("classic", "player", 7, 56)
-eq(px, 80, "classic player ball is below-left of the player name")
-eq(py, 67, "classic player ball sits below the player name row")
+eq(px, 80 + 56 + 3, "classic player ball sits right of the player name end")
+eq(py, 60, "classic player ball is centered on the player name row")
 local wx, wy = BattleHud.ballGeometry("wide", "player", 7, 56)
-eq(wx, 192, "wide player ball is below-left of the wide-layout name")
-eq(wy, 75, "wide player ball sits below the wide name row")
+eq(wx, 192 + 56 + 3, "wide player ball sits right of the wide-layout name end")
+eq(wy, 68, "wide player ball is centered on the wide name row")
 eq(BattleHud.ballGeometry("bogus", "enemy", 6, 48), nil, "ballGeometry returns nil for unknown layouts")
 eq(BattleHud.ballGeometry("wide", "trainer", 6, 48), nil, "ballGeometry returns nil for unknown sides")
-local zubatX, zubatY = BattleHud.ballGeometry("wide", "enemy", 5, 40)
-eq(zubatX, 8, "shorter enemy names do not move the below-left marker")
-eq(zubatY, 19, "shorter enemy names keep the below-name row")
-local magikarpX = BattleHud.ballGeometry("wide", "enemy", 8, 64)
-eq(magikarpX, 8, "longer enemy names do not move the below-left marker")
+local shortX = BattleHud.ballGeometry("classic", "enemy", 2, 16)
+eq(shortX, 24 + 16 + 3, "short names put the ball right after the short name")
+local longX = BattleHud.ballGeometry("classic", "enemy", 8, 64)
+eq(longX, 8 + 64 + 3, "long names put the ball right after the long name")
+eq(longX - shortX, (8 + 64) - (24 + 16),
+  "the ball moves right by exactly the name-width delta")
+-- a 10-glyph player name would overflow the 160px classic canvas: clamp
+local clampX = BattleHud.ballGeometry("classic", "player", 10, 80)
+eq(clampX, 160 - 3.5 - 1, "overflowing names clamp the ball on-canvas")
+eq(clampX + 3.5, 160 - 1, "the clamped ball still fits inside the canvas")
 
 -- drawing: owned species get the ListMenu ball after the name
 local circles, rectangles, colors = {}, {}, {}
@@ -78,11 +84,11 @@ local ownedEnemy = makeBattle({
 eq(BattleHud.drawOverlay(graphics, font, ownedEnemy, { PIDGEY = true }), 1,
   "one ball is drawn for the owned enemy")
 eq(circles[1][1], "fill", "the owned ball is a filled circle")
-eq(circles[1][2], 8, "the enemy ball is below-left of the enemy name")
-eq(circles[1][3], 11, "the enemy ball sits below the enemy name row")
+eq(circles[1][2], 8 + 48 + 3, "the enemy ball sits right of the enemy name end")
+eq(circles[1][3], 4, "the enemy ball is centered on the enemy name row")
 eq(circles[1][4], 3.5, "the enemy ball matches the ListMenu owned-ball size")
-eq(rectangles[1][2], 8 - 3.5, "the ball's white band spans the enemy circle horizontally")
-eq(rectangles[1][3], 11 - 0.5, "the ball's white band crosses the circle vertically")
+eq(rectangles[1][2], (8 + 48 + 3) - 3.5, "the ball's white band spans the enemy circle horizontally")
+eq(rectangles[1][3], 4 - 0.5, "the ball's white band crosses the circle vertically")
 
 -- both owned: two balls, each at its side's name row
 local bothOwned = makeBattle({
@@ -93,8 +99,8 @@ local bothOwned = makeBattle({
 local ballCount = #circles
 eq(BattleHud.drawOverlay(graphics, font, bothOwned, { PIDGEY = true, PIKACHU = true }), 2,
   "both owned battlers get a ball")
-eq(circles[#circles][2], 80, "the classic player ball is below-left of the player name")
-eq(circles[#circles][3], 67, "the player ball sits below the player name row")
+eq(circles[#circles][2], 80 + 56 + 3, "the classic player ball sits right of the player name end")
+eq(circles[#circles][3], 60, "the player ball is centered on the player name row")
 
 -- unowned species: no ball
 local noneOwned = makeBattle({
@@ -113,10 +119,10 @@ local wideBattle = makeBattle({
 })
 local wideBase = #circles
 eq(BattleHud.drawOverlay(graphics, font, wideBattle, { PIDGEY = true, PIKACHU = true }), 2, "wide battles still mark owned battlers")
-eq(circles[wideBase + 1][2], 8, "the wide enemy ball is below-left of the enemy name")
-eq(circles[wideBase + 1][3], 19, "the wide enemy ball sits below the wide name row")
-eq(circles[#circles][2], 192, "the wide player ball is below-left of the player name")
-eq(circles[#circles][3], 75, "the wide player ball sits below the wide player name row")
+eq(circles[wideBase + 1][2], 8 + 48 + 3, "the wide enemy ball sits right of the enemy name end")
+eq(circles[wideBase + 1][3], 12, "the wide enemy ball is centered on the wide name row")
+eq(circles[#circles][2], 192 + 56 + 3, "the wide player ball sits right of the player name end")
+eq(circles[#circles][3], 68, "the wide player ball is centered on the wide player name row")
 
 -- HUD visibility guards: no ball while the enemy is being sent out
 local sendingOut = makeBattle({
