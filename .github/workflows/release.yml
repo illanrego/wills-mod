@@ -1,0 +1,111 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Exact version to release (e.g. 1.0.1). Leave blank to use manifest.json."
+        required: false
+        default: ""
+  push:
+    branches: [main]
+    paths:
+      - 'manifest.json'
+      - 'main.lua'
+      - 'lib/**'
+      - 'CHANGELOG.md'
+      - 'README.md'
+      - 'mod.card'
+      - 'LICENSE'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Determine version
+        id: ver
+        env:
+          DISPATCH_VERSION: ${{ github.event.inputs.version }}
+        run: |
+          set -euo pipefail
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json, os, re, sys
+          semver = re.compile(r"^\d+\.\d+\.\d+$")
+          override = os.environ.get("DISPATCH_VERSION", "").strip()
+          with open("manifest.json", encoding="utf-8") as fh:
+              manifest_version = str(json.load(fh).get("version", ""))
+          version = override or manifest_version
+          if not semver.match(version):
+              print(f"::error::invalid release version {version!r}; expected X.Y.Z", file=sys.stderr)
+              raise SystemExit(1)
+          print(f"version={version}")
+          print(f"tag=v{version}")
+          PY
+
+      - name: Refuse existing tag/release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.ver.outputs.tag }}
+        run: |
+          set -euo pipefail
+          if git rev-parse -q --verify "refs/tags/$TAG" >/dev/null; then
+            echo "Tag $TAG already exists; skipping release."
+            exit 0
+          fi
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "Release $TAG already exists; skipping release."
+            exit 0
+          fi
+
+      - name: Build installable mod zip
+        env:
+          VERSION: ${{ steps.ver.outputs.version }}
+        run: |
+          set -euo pipefail
+          python3 tools/bundle.py
+          staging="$RUNNER_TEMP/wills_mod"
+          out="$GITHUB_WORKSPACE/dist"
+          rm -rf "$staging" "$out"
+          mkdir -p "$staging" "$out"
+          cp CHANGELOG.md LICENSE README.md main.lua manifest.json mod.card "$staging/"
+          python3 - "$staging/manifest.json" "$VERSION" <<'PY'
+          import json, sys
+          path, version = sys.argv[1], sys.argv[2]
+          with open(path, encoding="utf-8") as fh:
+              manifest = json.load(fh)
+          manifest["version"] = version
+          with open(path, "w", encoding="utf-8") as fh:
+              json.dump(manifest, fh, indent=2, ensure_ascii=False)
+              fh.write("\n")
+          PY
+          zip_path="$out/wills_mod-${VERSION}.zip"
+          (cd "$staging" && zip -Xqr "$zip_path" .)
+          unzip -l "$zip_path"
+          (cd "$out" && sha256sum "wills_mod-${VERSION}.zip" > sha256sums.txt)
+          cat "$out/sha256sums.txt"
+
+      - name: Publish GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.ver.outputs.version }}
+          TAG: ${{ steps.ver.outputs.tag }}
+        run: |
+          set -euo pipefail
+          gh release create "$TAG" \
+            --target "$GITHUB_SHA" \
+            --title "Will's Mod ${VERSION}" \
+            --notes "Download wills_mod-${VERSION}.zip and install it from the game: MODS → Import mod .zip." \
+            "dist/wills_mod-${VERSION}.zip" \
+            "dist/sha256sums.txt"
