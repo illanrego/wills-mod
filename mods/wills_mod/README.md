@@ -13,9 +13,11 @@ Two read-only tools in one mod — know where to find every wild Pokémon, and k
 
 ## Screenshots
 
-| PKMN MAP (Kanto) | Walking HUD | Encounter List |
-|---|---|---|
-| ![PKMN MAP](.github/resources/screenshot-map.png) | ![Walking HUD](.github/resources/screenshot-walking-hud.png) | ![Encounter List](.github/resources/screenshot-encounter-list.png) |
+| PKMN MAP (Kanto) | Walking HUD |
+|---|---|
+| ![PKMN MAP](.github/resources/screenshot-map.png) | ![Walking HUD](.github/resources/screenshot-walking-hud.png) |
+| Encounter List | Battle HUD |
+| ![Encounter List](.github/resources/screenshot-encounter-list.png) | ![Battle HUD](.github/resources/screenshot-battle-hud.jpg) |
 
 ## Features
 

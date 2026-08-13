@@ -69,7 +69,7 @@ SIZE rows. Report anything off.
 ### Phase 1 — Repo shape + presentation
 
 1. Flatten to repo-root mod (or keep subdir — see §3).
-2. Add screenshots: use the three existing shots from `~/Documents/encounters-guide1.png` (PKMN MAP), `encounters-guide2.png` (walking HUD), and `encounters-guide3.png` (encounter list). They are copied under `mods/wills_mod/.github/resources/` as `screenshot-map.png`, `screenshot-walking-hud.png`, and `screenshot-encounter-list.png`. Keep screenshots OUT of the release zip — the official release workflow excludes `.github/`.
+2. Add screenshots: use the existing shots from `~/Documents/encounters-guide1.png` (PKMN MAP), `encounters-guide2.png` (walking HUD), `encounters-guide3.png` (encounter list), plus `~/Downloads/Screenshot_20260812_211133.jpg` (battle HUD). They are copied under `mods/wills_mod/.github/resources/` as `screenshot-map.png`, `screenshot-walking-hud.png`, `screenshot-encounter-list.png`, and `screenshot-battle-hud.jpg`. Keep screenshots OUT of the release zip — the official release workflow excludes `.github/`.
 3. Root README: the mod README (already written at
    `mods/wills_mod/README.md`; it becomes the repo README after flatten).
 4. Commit locally (no push).
