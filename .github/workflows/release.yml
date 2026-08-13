@@ -105,7 +105,7 @@ jobs:
           set -euo pipefail
           gh release create "$TAG" \
             --target "$GITHUB_SHA" \
-            --title "Will's Mod ${VERSION}" \
+            --title "Encounters Guide ${VERSION}" \
             --notes "Download wills_mod-${VERSION}.zip and install it from the game: MODS → Import mod .zip." \
             "dist/wills_mod-${VERSION}.zip" \
             "dist/sha256sums.txt"

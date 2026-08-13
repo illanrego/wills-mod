@@ -1,4 +1,4 @@
-# 🗺️ Will's Mod
+# 🗺️ Encounters Guide
 
 **A catch-'em-all toolkit for Gen1Recomp: a map-first wild-encounter guide and a battle HUD that shows which Pokémon you already own.**
 
@@ -46,7 +46,7 @@ Two read-only tools in one mod — know where to find every wild Pokémon, and k
 
 1. Open **MODS** in Gen1Recomp (`F10` on desktop).
 2. **Import mod .zip** and select `wills_mod-1.0.0.zip`.
-3. Enable **Will's Mod**.
+3. Enable **Encounters Guide**.
 
 Works on desktop and Android. Requires an imported Pokémon Red, Blue, or Yellow ROM.
 
@@ -148,7 +148,7 @@ Every release gate runs before tagging: **11/11 test files green** → strict lo
 - [x] v0.5.0 — HUD modes (AUTO/ALWAYS/OFF + H key + options menu) and owned-ball markers
 - [x] v0.6.0 — HUD size option (SMALL/MEDIUM/LARGE)
 - [x] v0.1.0–0.1.5 — Battle HUD: owned-ball markers, fixed per-layout geometry
-- [x] v1.0.0 — Will's Mod: both tools merged into one install
+- [x] v1.0.0 — Encounters Guide: both tools merged into one install
 - [ ] Red/Yellow data pass on real caches
 - [ ] Fishing as its own method
 
