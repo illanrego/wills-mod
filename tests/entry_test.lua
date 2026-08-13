@@ -15,17 +15,37 @@ local mod = {
       end,
       width = function(text) return #text * 8 end,
     },
+    insertBefore = function(items, anchorLabel, row)
+      local out, inserted = {}, false
+      for _, item in ipairs(items) do
+        if not inserted and item.label == anchorLabel then
+          out[#out + 1] = row
+          inserted = true
+        end
+        out[#out + 1] = item
+      end
+      if not inserted then out[#out + 1] = row end
+      return out
+    end,
   },
 }
 
 entry()(mod)
-assert(wrappedHooks["battle.overlay"], "main must wrap the battle.overlay hook for the owned-ball markers")
+assert(wrappedHooks["ui.start_menu.items"],
+  "main must wrap ui.start_menu.items for the PKMN MAP row")
+assert(wrappedHooks["render.hud"],
+  "main must wrap render.hud for the walking encounter HUD")
+assert(wrappedHooks["ui.options.rows"],
+  "main must wrap ui.options.rows for the ENC. GUIDE options")
 
+-- the start-menu wrap decorates rather than replaces
+local vanilla = { { label = "POKéDEX" }, { label = "SAVE" }, { label = "QUIT" } }
 local nextCalled = false
-local battle = {
-  game = { save = { pokedex = { owned = {} } } },
-}
-local result = wrappedHooks["battle.overlay"](function() nextCalled = true end, battle)
-assert(nextCalled, "the battle.overlay wrap must preserve the hook chain")
-assert(result == nil, "the battle.overlay wrap must not replace the hook result")
-assert(battle.game.save.pokedex.owned ~= nil, "the battle.overlay wrap must not mutate the save")
+local items = wrappedHooks["ui.start_menu.items"](function()
+  nextCalled = true
+  return vanilla
+end, { save = {} }, vanilla)
+assert(nextCalled, "the start-menu wrap must preserve the hook chain")
+assert(type(items) == "table" and #items == 4, "the start-menu wrap adds one row")
+assert(items[2].label == "PKMN MAP", "the PKMN MAP row anchors before SAVE")
+assert(items[3].label == "SAVE", "the vanilla rows stay in order")

@@ -7,11 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.0.1] - 2026-08-13
 
+### Removed
+
+- The battle HUD owned-ball marker feature (Pokédex ball beside battler
+  names) is gone — other mods already cover it, and the encounter guide is
+  the unique part. Walking-HUD owned markers in species lists stay.
+
 ### Changed
 
-- The battle HUD owned-ball marker now sits immediately right of the
-  battler's name (position follows name length), vertically centered on the
-  name row, and clamps on-canvas for 10-glyph names.
 - Display name is now **Encounters Guide** (mod id, repo, and update channel
   unchanged).
 

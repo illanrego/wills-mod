@@ -1,23 +1,20 @@
 # 🗺️ Encounters Guide
 
-**A catch-'em-all toolkit for Gen1Recomp: a map-first wild-encounter guide and a battle HUD that shows which Pokémon you already own.**
+**A map-first wild-encounter guide for Gen1Recomp.**
 
-Two read-only tools in one mod — know where to find every wild Pokémon, and know which ones you've already caught:
+One read-only mod — know where to find every wild Pokémon, straight from your imported ROM:
 
 - **Encounter Guide** — walk the real Kanto Town Map, hop between encounter-bearing locations, and drill down to exact routes, floors, and buildings, with truthful level ranges and per-step odds derived from *your* imported ROM.
-- **Battle HUD** — a Pokédex ball marker beside each battler's name when you've already caught that species.
 
-![API 2](https://img.shields.io/badge/mod%20API-2-8b5cf6) ![Profile: Content](https://img.shields.io/badge/profile-content-10b981) ![Read-only](https://img.shields.io/badge/read--only-✓-f59e0b) ![Tests](https://img.shields.io/badge/tests-11%20files%20passing-22c55e) ![Platform](https://img.shields.io/badge/platform-desktop%20%2B%20Android-3b82f6)
+![API 2](https://img.shields.io/badge/mod%20API-2-8b5cf6) ![Profile: Content](https://img.shields.io/badge/profile-content-10b981) ![Read-only](https://img.shields.io/badge/read--only-✓-f59e0b) ![Tests](https://img.shields.io/badge/tests-10%20files%20passing-22c55e) ![Platform](https://img.shields.io/badge/platform-desktop%20%2B%20Android-3b82f6)
 
 ---
 
 ## Screenshots
 
-| PKMN MAP (Kanto) | Walking HUD |
-|---|---|
-| ![PKMN MAP](.github/resources/screenshot-map.png) | ![Walking HUD](.github/resources/screenshot-walking-hud.png) |
-| Encounter List | Battle HUD |
-| ![Encounter List](.github/resources/screenshot-encounter-list.png) | ![Battle HUD](.github/resources/screenshot-battle-hud.jpg) |
+| PKMN MAP (Kanto) | Walking HUD | Encounter List |
+|---|---|---|
+| ![PKMN MAP](.github/resources/screenshot-map.png) | ![Walking HUD](.github/resources/screenshot-walking-hud.png) | ![Encounter List](.github/resources/screenshot-encounter-list.png) |
 
 ## Features
 
@@ -35,12 +32,6 @@ Two read-only tools in one mod — know where to find every wild Pokémon, and k
 - **Compact level ranges, full odds on demand** — `ZUBAT Lv. 8-10` up top, then every exact level with its chance per movement step.
 - **SELECT opens the complete list** — catches every encounter source, including any that lack Town Map coordinates.
 - **Pure ROM-derived data** — works with Red, Blue, or Yellow; zero hard-coded species tables; no copyrighted content shipped.
-
-### ⚪ Battle HUD
-
-- **Owned-ball markers** — when a battler's species is in your Pokédex as caught, a Pokédex ball appears below-left of their name.
-- **Fixed geometry** — markers are anchored to the name field, independent of name length, in both classic (160×144) and wide battle layouts.
-- **Polite by default** — markers hide while the enemy is sending out, and in safari, demo, and player-back views.
 
 ## Install
 
@@ -75,10 +66,6 @@ START → PKMN MAP
             → Lv. 8  · 1.95% (exact per-step odds)
 ```
 
-### Battle HUD
-
-Nothing to do — markers appear automatically once a battler's species is in your caught Pokédex.
-
 ## How it works
 
 ```text
@@ -90,7 +77,6 @@ generated data  ──►  model.lua          ──►  screens (list + detail)
  field/townMap,   │   never merges maps,     ▼
  pokemon,         │   sums duplicate slots,  ListMenu UI (A open / B back)
  constants)       └── calculates odds        MapScreen (D-pad cursor)
-                                              BattleHud (battle.overlay)
 ```
 
 The mod is read-only: it never touches saves, encounter mechanics, or link state.
@@ -106,10 +92,9 @@ The mod is read-only: it never touches saves, encounter mechanics, or link state
 │   ├── names.lua          # player-facing map/source labels
 │   ├── screens.lua        # ListMenu-based area/source/method/species screens
 │   ├── map_screen.lua     # Town Map viewer: ROM tiles, cursor, markers, controls
-│   ├── hud.lua            # walking HUD: per-area species panel via render.hud
-│   └── battle_hud.lua     # battle owned-ball markers via battle.overlay
+│   └── hud.lua            # walking HUD: per-area species panel via render.hud
 ├── tools/bundle.py        # deterministic bundler: lib/ → main.lua
-├── tests/                 # LÖVE test suite (11 files, fixtures + live Blue cache)
+├── tests/                 # LÖVE test suite (10 files, fixtures + live Blue cache)
 ├── manifest.json          # mod metadata (id: wills_mod, github: illanrego/wills-mod)
 ├── mod.card               # launcher-facing description
 └── dist/                  # importable release ZIPs
@@ -132,11 +117,11 @@ modkit lint .
 modkit pack -o dist/wills_mod-1.0.1.zip .
 ```
 
-Every release gate runs before tagging: **11/11 test files green** → strict loader validation → no-ROM-content lint → clean archive → live in-game smoke test.
+Every release gate runs before tagging: **10/10 test files green** → strict loader validation → no-ROM-content lint → clean archive → live in-game smoke test.
 
 ## Scope
 
-- **Covered:** walking/LAND and Surf/WATER encounter tables; battle owned-markers.
+- **Covered:** walking/LAND and Surf/WATER encounter tables.
 - **Deferred (truthfully labeled later):** fishing, static encounters, gifts, trades, prizes, and Game Corner — each deserves its own honest acquisition method before it appears in the guide.
 
 ## Roadmap
@@ -147,7 +132,7 @@ Every release gate runs before tagging: **11/11 test files green** → strict lo
 - [x] v0.4.0 — walking HUD with per-area species and level ranges
 - [x] v0.5.0 — HUD modes (AUTO/ALWAYS/OFF + H key + options menu) and owned-ball markers
 - [x] v0.6.0 — HUD size option (SMALL/MEDIUM/LARGE)
-- [x] v0.1.0–0.1.5 — Battle HUD: owned-ball markers, fixed per-layout geometry
+- [x] v0.1.0–0.1.5 — Battle HUD owned-ball markers (feature removed in v1.0.1 — covered by other mods)
 - [x] v1.0.0 — Encounters Guide: both tools merged into one install
 - [ ] Red/Yellow data pass on real caches
 - [ ] Fishing as its own method

@@ -1,11 +1,9 @@
-lib/battle_hud.lua
 lib/entry.lua
 lib/hud.lua
 lib/map_screen.lua
 lib/model.lua
 lib/names.lua
 lib/screens.lua
-tests/battle_hud_test.lua
 tests/blue_cache_test.lua
 tests/entry_test.lua
 tests/hud_test.lua
@@ -19,10 +17,9 @@ tests/screens_test.lua
 tests/runner/main.lua
 tools/bundle.py
 PUBLISHING.md
-.github/resources/screenshot-battle-hud.jpg
-.github/resources/screenshot-encounter-list.png
 .github/resources/screenshot-map.png
 .github/resources/screenshot-walking-hud.png
+.github/resources/screenshot-encounter-list.png
 .github/workflows/release.yml
 dist/wills_mod-1.0.0.zip
 dist/wills_mod-1.0.1.zip
