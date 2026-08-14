@@ -43,9 +43,11 @@ HUD. Our guide is the unique implementation — keep pushing it.
 
 ## Recommended next step
 
-Done (2026-08-13): submitted to the **official mod index**
-(bryanthaboi/gen1recomp-mod-index) as PR
-https://github.com/bryanthaboi/gen1recomp-mod-index/pull/134
-(`mods/Illan@wills_mod/` — meta.json + description.md, schema-validated,
-`automatic_version_check: true`). Awaiting maintainer merge; the nightly
-refresh then tracks new releases from illanrego/wills-mod automatically.
+Done and MERGED (2026-08-13): the mod is **officially listed** in the
+official mod index (bryanthaboi/gen1recomp-mod-index) — PR
+https://github.com/bryanthaboi/gen1recomp-mod-index/pull/134 merged, entry
+live in the feed (`data/index.json`: wills_mod / Encounters Guide v1.0.1).
+The gallery PR (#1223) was closed by the maintainer: community mods do not
+go in the main repo — they live in their own repos and get listed via the
+index. The index's nightly refresh tracks new releases from
+illanrego/wills-mod automatically.
